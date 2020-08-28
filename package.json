@@ -1,0 +1,27 @@
+{
+  "name": "reader",
+  "version": "0.0.1",
+  "devDependencies": {
+    "browser-sync": "latest",
+    "webpack": "latest",
+    "webpack-cli": "latest",
+    "preprocess-cli-extended": "latest",
+    "babel-cli": "latest",
+    "babel-preset-env": "latest",
+    "uglify-js": "latest"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "start": "browser-sync start --server --watch --files src --startPath src/index.html",
+    "build": "npm run build:js && npm run build:css && npm run build:html",
+    "build:js": "npm run build:js:webpack && npm run build:js:babel && npm run build:js:uglify",
+    "build:js:webpack": "mkdir -p dist/js; webpack --devtool inline-source-map src/js/script.js --mode=development --output dist/js/script.js",
+    "build:js:babel": "npx babel --presets env dist/js/script.js -s inline -o dist/js/script.js",
+    "build:js:uglify": "npx uglifyjs -c -m --source-map url=script.js.map,includeSources,content=inline -o dist/js/script.js dist/js/script.js",
+    "build:css": "mkdir -p dist/css; cp -r src/css dist",
+    "build:html": "mkdir -p dist; npx preprocess src/index.html -e package.json -d '{\"commit\":\"'$(git log --pretty=format:'%h' -n 1)'\", \"time\":\"'$(date +%s)'\"}' > dist/index.html; sed -i 's/type=\"module\" //g' dist/index.html"
+  },
+  "dependencies": {
+    "@babel/polyfill": "7.6.0"
+  }
+}

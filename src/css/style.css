@@ -1,0 +1,8 @@
+:root {
+    --main-fg-color: green;
+    --main-bg-color: blue;
+}
+
+html{
+    background: var(--main-bg-color);
+}
