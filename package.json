@@ -22,6 +22,8 @@
     "build:html": "mkdir -p dist; npx preprocess src/index.html -e package.json -d '{\"commit\":\"'$(git log --pretty=format:'%h' -n 1)'\", \"time\":\"'$(date +%s)'\"}' > dist/index.html; sed -i 's/type=\"module\" //g' dist/index.html"
   },
   "dependencies": {
-    "@babel/polyfill": "7.6.0"
+    "@babel/polyfill": "7.6.0",
+    "hyphenation.pl": "^0.2.1",
+    "hypher": "^0.2.5"
   }
 }
