@@ -12,7 +12,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "start": "browser-sync start --server --watch --files src --startPath src/index.html",
+    "start": "browser-sync start --server --watch --files dist --startPath dist/index.html & npx npm-watch",
     "build": "npm run build:js && npm run build:css && npm run build:html",
     "build:js": "npm run build:js:webpack && npm run build:js:babel && npm run build:js:uglify",
     "build:js:webpack": "mkdir -p dist/js; webpack --devtool inline-source-map src/js/script.js --mode=development --output dist/js/script.js",
@@ -25,5 +25,8 @@
     "@babel/polyfill": "7.6.0",
     "hyphenation.pl": "^0.2.1",
     "hypher": "^0.2.5"
+  },
+  "watch": {
+    "build": "src/**"
   }
 }

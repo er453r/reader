@@ -1,8 +1,10 @@
 :root {
     --main-fg-color: green;
-    --main-bg-color: blue;
+    --main-bg-color: cyan;
 }
 
 html{
     background: var(--main-bg-color);
+    white-space: pre;
+    font-size: 2cm;
 }
