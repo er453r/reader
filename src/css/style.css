@@ -1,10 +1,13 @@
 :root {
     --main-fg-color: green;
-    --main-bg-color: cyan;
+    --main-bg-color: white;
 }
 
 html{
     background: var(--main-bg-color);
+    font-size: .6cm;
+}
+
+#reader{
     white-space: pre;
-    font-size: 2cm;
 }
