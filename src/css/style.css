@@ -15,3 +15,19 @@ html{
 .reader.current{
     font-weight: bold;
 }
+
+.reader.current-sentence .first-letter,
+.reader.current-sentence.sentence,
+.reader.current-sentence.pause{
+    font-weight: bold;
+    font-size: 1.2em;
+    color: deeppink;
+}
+
+.reader{
+    opacity: 0.2;
+}
+
+.reader.current-sentence, .reader.current-sentence *{
+    opacity: 1.0;
+}

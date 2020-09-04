@@ -32,6 +32,7 @@ function readerPrepare(input) {
 
                     if (sentenceStart) {
                         p.className += "first-word"
+                        p.innerHTML = `<span class="first-letter">${p.innerText.substr(0, 1)}</span>${p.innerText.substr(1)}`
 
                         sentenceStart = false
                     }
@@ -83,7 +84,9 @@ function readerNext() {
 
         console.log(`First word is "${startWord.innerHTML}"`)
 
-        startWord.className += " current"
+        startWord.classList.add("current")
+
+        readerUpdate()
     } else {
         console.log(`Found current: "${current.innerHTML}"`)
 
@@ -101,8 +104,11 @@ function readerNext() {
                 next = next.nextElementSibling
         }
 
-        if(next)
+        if(next) {
             console.log(`Next is: "${next.innerHTML}"`)
+
+            readerUpdate()
+        }
     }
 }
 
@@ -128,9 +134,52 @@ function readerPrevious() {
                 previous = previous.previousElementSibling
         }
 
-        if(previous)
+        if(previous) {
             console.log(`Previous is: "${previous.innerHTML}"`)
+
+            readerUpdate()
+        }
     }
+}
+
+function readerUpdate() {
+    console.log("Reader update!")
+
+    document.querySelectorAll(".reader.current-sentence").forEach(it => {
+        it.classList.remove("current-sentence")
+    })
+
+    console.log("Reader update 444!")
+
+    const current = document.querySelector(".reader.current")
+
+    console.log("Reader update 123!")
+
+    if(current !== null) {
+        let next = current.nextElementSibling
+
+        while (next !== null) {
+            next.classList.add("current-sentence")
+
+            if (next.matches(".reader.sentence"))
+                break
+
+            next = next.nextElementSibling
+        }
+
+        let previous = current
+
+        while (previous !== null) {
+            previous.classList.add("current-sentence")
+
+            if (previous.matches(".reader.first-word"))
+                break
+
+            previous = previous.previousElementSibling
+        }
+    }
+
+    console.log("Reader update done!")
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -145,6 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
     readerPrepare(text)
 
     readerNext()
+
+    console.log("init done!")
 })
 
 document.onkeydown = event => {
