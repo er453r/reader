@@ -1,3 +1,6 @@
+import * as Hypher from "hypher";
+import * as Polish from "hyphenation.pl";
+
 console.log('main script loaded')
 
 const WORD = /^[\wżźćńółęąś]+/i
@@ -6,6 +9,7 @@ const SENTENCE = /^[;.?!]/
 const WHITESPACE = /^[\s]+/
 
 const parts = [WORD, PAUSE, SENTENCE, WHITESPACE]
+const h = new Hypher(Polish);
 
 function readerPrepare(input) {
     let sentenceStart = true
@@ -23,30 +27,39 @@ function readerPrepare(input) {
                 console.log(`Found match "${match}"`)
 
                 const p = document.createElement("span")
-                p.innerText = match
 
                 if (part === WORD) {
                     console.log("Matched WORD")
 
-                    p.className = "reader word "
+                    p.className = "reader word"
 
                     if (sentenceStart) {
                         p.className += "first-word"
-                        p.innerHTML = `<span class="first-letter">${p.innerText.substr(0, 1)}</span>${p.innerText.substr(1)}`
+                        // p.innerHTML = `<span class="first-letter">${p.innerText.substr(0, 1)}</span>${p.innerText.substr(1)}`
 
                         sentenceStart = false
                     }
+
+                    const parts = h.hyphenate(match)
+
+                    parts.forEach(part => {
+                        const partSpan = document.createElement("span")
+                        partSpan.innerHTML = part
+                        p.append(partSpan)
+                    })
                 }
 
                 if (part === PAUSE) {
                     console.log("Matched PAUSE")
 
+                    p.innerText = match
                     p.className = "reader pause"
                 }
 
                 if (part === SENTENCE) {
                     console.log("Matched SENTENCE")
 
+                    p.innerText = match
                     p.className = "reader sentence"
 
                     sentenceStart = true
@@ -55,6 +68,7 @@ function readerPrepare(input) {
                 if (part === WHITESPACE) {
                     console.log("Matched WHITESPACE")
 
+                    p.innerText = match
                     p.className = "reader whitespace"
                 }
 
@@ -149,7 +163,7 @@ function readerUpdate() {
         it.classList.remove("current-sentence")
     })
 
-    console.log("Reader update 444!")
+    console.log("Reader update!")
 
     const current = document.querySelector(".reader.current")
 
@@ -184,10 +198,6 @@ function readerUpdate() {
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded')
-
-    // let h = new Hypher(Polish);
-
-    // console.log(h.hyphenate('Dlaczego to nie działa a jednak jest poprawnie czekolada'))
 
     const text = document.querySelector("#input").value
 
