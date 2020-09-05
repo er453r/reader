@@ -28,6 +28,10 @@ html{
     opacity: 0.2;
 }
 
+.reader:not(.current) span{
+    background-color: transparent !important;
+}
+
 .reader.current-sentence, .reader.current-sentence *{
     opacity: 1.0;
 }

@@ -11,6 +11,23 @@ const WHITESPACE = /^[\s]+/
 const parts = [WORD, PAUSE, SENTENCE, WHITESPACE]
 const h = new Hypher(Polish);
 
+function seededRandom(seedInt) {
+    const x = Math.sin(seedInt) * 10000;
+    return x - Math.floor(x);
+}
+
+function randomInt(min, max, seedInt) {
+    return Math.floor(seededRandom(seedInt) * (max - min + 1)) + min;
+}
+
+function randomColor(seedInt){
+    const h = randomInt(0, 360, seedInt)
+    const s = randomInt(42, 98, seedInt)
+    const l = randomInt(40, 90, seedInt)
+
+    return `hsl(${h},${s}%,${l}%)`
+}
+
 function readerPrepare(input) {
     let sentenceStart = true
 
@@ -34,8 +51,7 @@ function readerPrepare(input) {
                     p.className = "reader word"
 
                     if (sentenceStart) {
-                        p.className += "first-word"
-                        // p.innerHTML = `<span class="first-letter">${p.innerText.substr(0, 1)}</span>${p.innerText.substr(1)}`
+                        p.className += " first-word"
 
                         sentenceStart = false
                     }
@@ -45,6 +61,15 @@ function readerPrepare(input) {
                     parts.forEach(part => {
                         const partSpan = document.createElement("span")
                         partSpan.innerHTML = part
+
+                        let seed = 1
+
+                        const seedPart = part.toLocaleLowerCase()
+
+                        for(let n = 0; n < seedPart.length; n++)
+                            seed *= seedPart.charCodeAt(n)
+
+                        partSpan.style.backgroundColor = randomColor(seed)
                         p.append(partSpan)
                     })
                 }
@@ -159,21 +184,25 @@ function readerPrevious() {
 function readerUpdate() {
     console.log("Reader update!")
 
-    document.querySelectorAll(".reader.current-sentence").forEach(it => {
-        it.classList.remove("current-sentence")
-    })
+    const currentSentenceParts = document.querySelectorAll(".reader.current-sentence")
 
-    console.log("Reader update!")
+    console.log(`found ${currentSentenceParts.length}`)
+
+    for (let i = 0; i < currentSentenceParts.length; i++) {
+        console.log(`removing from ${currentSentenceParts[i].innerHTML}`)
+
+        currentSentenceParts[i].classList.remove("current-sentence")
+    }
 
     const current = document.querySelector(".reader.current")
-
-    console.log("Reader update 123!")
 
     if(current !== null) {
         let next = current.nextElementSibling
 
         while (next !== null) {
             next.classList.add("current-sentence")
+
+            console.log(`added to next ${next.innerHTML}`)
 
             if (next.matches(".reader.sentence"))
                 break
@@ -185,6 +214,8 @@ function readerUpdate() {
 
         while (previous !== null) {
             previous.classList.add("current-sentence")
+
+            console.log(`added to previous ${previous.innerHTML}`)
 
             if (previous.matches(".reader.first-word"))
                 break
