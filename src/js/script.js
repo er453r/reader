@@ -50,17 +50,17 @@ function readerPrepare(input) {
 
                     p.className = "reader word"
 
-                    if (sentenceStart) {
-                        p.className += " first-word"
-
-                        sentenceStart = false
-                    }
-
                     const parts = h.hyphenate(match)
 
-                    parts.forEach(part => {
+                    for(let i = 0; i < parts.length; i++){
+                        const part = parts[i]
+
                         const partSpan = document.createElement("span")
-                        partSpan.innerHTML = part
+
+                        if(sentenceStart && i === 0)
+                            partSpan.innerHTML = `<span class="first-letter">${part.substr(0, 1)}</span>${part.substr(1)}`
+                        else
+                            partSpan.innerHTML = part
 
                         let seed = 1
 
@@ -71,7 +71,13 @@ function readerPrepare(input) {
 
                         partSpan.style.backgroundColor = randomColor(seed)
                         p.append(partSpan)
-                    })
+                    }
+
+                    if (sentenceStart) {
+                        p.className += " first-word"
+
+                        sentenceStart = false
+                    }
                 }
 
                 if (part === PAUSE) {

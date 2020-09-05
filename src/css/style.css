@@ -12,15 +12,23 @@ html{
     white-space: pre;
 }
 
+.reader{
+    transition: font-size .4s ease-in-out;
+}
+
 .reader.current{
     font-weight: bold;
+}
+
+.reader.current-sentence{
+    font-size: 1.4em;
 }
 
 .reader.current-sentence .first-letter,
 .reader.current-sentence.sentence,
 .reader.current-sentence.pause{
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.8em;
     color: deeppink;
 }
 
