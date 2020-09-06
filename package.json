@@ -27,6 +27,9 @@
     "hypher": "^0.2.5"
   },
   "watch": {
-    "build": "src/**"
+    "build": {
+      "patterns": "src",
+      "extensions": "js,css"
+    }
   }
 }

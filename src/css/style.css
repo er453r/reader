@@ -9,31 +9,36 @@ html{
 }
 
 #reader{
+
+}
+
+#reader span{
+    display: inline-block;
     white-space: pre;
 }
 
 .reader{
-    transition: font-size .4s ease-in-out;
+    transition: font-size .4s ease-in-out, opacity .4s ease-in-out, transform .4s ease-in-out;
+
+    opacity: 0.2;
 }
 
 .reader.current{
-    font-weight: bold;
+    /*font-weight: bold;*/
+    transform: scale(1.6, 1.6);
 }
 
 .reader.current-sentence{
-    font-size: 1.4em;
+    /*font-size: 1.4em;*/
 }
 
 .reader.current-sentence .first-letter,
 .reader.current-sentence.sentence,
 .reader.current-sentence.pause{
-    font-weight: bold;
-    font-size: 1.8em;
+    /*font-weight: bold;*/
+    /*font-size: 1.8em;*/
     color: deeppink;
-}
-
-.reader{
-    opacity: 0.2;
+    transform: scale(1.4, 1.4);
 }
 
 .reader:not(.current) span{
